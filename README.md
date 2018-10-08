@@ -1,3 +1,3 @@
-# IOTA LUG raspberry pi
+#  LUG-IOTA
 
-IOTA LUG raspberry pi project
+LUG IOTA workshop code repository
