@@ -25,6 +25,7 @@ class GGA
 	void getDat();
 	void print();
 	void rawStream();
+	void finish();
 
 	protected:
 	ifstream inFile;
@@ -46,5 +47,6 @@ class GGA
 	int refStation = 0;
 	int checkSum = 0;
 };
+
 
 #endif

@@ -2,15 +2,14 @@
 
 void init(struct GGA*);
 void printGGA(struct GGA*);
-void getDat(struct GGA*, char[]);
+void getDat(struct GGA*);
 void finalize(struct GGA*);
 
 int main()
 {
 	struct GGA ggaDat;
-	char buf[BUFSIZE];
 
 	init(&ggaDat);
-	getDat(&ggaDat, buf);
+	getDat(&ggaDat);
 	finalize(&ggaDat);
 }

@@ -62,3 +62,9 @@ geoUnit << endl << "Age of Data: " << datAge << endl <<
 "Differential Reference Station: " << refStation << endl <<
 "Checksum: " << checkSum << endl << endl;
 }
+
+void GGA::finish()
+{
+	inFile.close();
+}
+

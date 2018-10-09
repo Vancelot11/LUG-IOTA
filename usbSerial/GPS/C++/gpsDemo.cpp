@@ -1,6 +1,5 @@
 #include"header.hpp"
 
-
 int main()
 {
 	GGA GGADat;

@@ -20,25 +20,18 @@ void init(struct GGA *dat)
 	tcsetattr(dat->gpsFD, TCSANOW, &dat->newtio);
 }
 
-void getDat(struct GGA *dat, char buffer[BUFSIZE])
+void getDat(struct GGA *dat)
 {
 	int result = 0;
-	char *fields[20];
-	char check[] = "$GPGGA";
-
-	for(;;)
+	char buffer1[100], *buffer2;
+	char check = '$';
+	
+	result = read(dat->gpsFD, buffer1, BUFSIZE);
+	buffer1[result] = 0;
+	buffer2 = strtok(buffer1, ",*");
+	if(buffer2[0] == check)
 	{
-		result = read(dat->gpsFD, buffer, BUFSIZE);
-		buffer[result] = 0;
-		fields[0] = strtok(buffer, ",*");
-		if(strcmp(fields[0], check) == 0)
-		{
-			while(fields[0] != NULL)
-			{
-				printf("%s\n", fields[0]);
-				fields[0] = strtok(NULL, ",*");
-			}
-		}
+		printf("%s\n", buffer2);
 	}
 }
 
