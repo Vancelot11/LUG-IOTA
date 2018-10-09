@@ -30,21 +30,21 @@ class GGA
 	ifstream inFile;
 	string fileName = SENSORPORT;
 	string sentence;
-	double time;
-	double latitude;
-	char ns;
-	double longitude;
-	char ew;
-	int gpsQual;
-	int numSats;
-	double horDil;
-	double alt;
-	char altUnit;
-	double geoSep;
-	char geoUnit;
-	double datAge;
-	int refStation;
-	int checkSum;
+	double time = 0;
+	double latitude = 0;
+	char ns = ' ';
+	double longitude = 0;
+	char ew = ' ';
+	int gpsQual = 0;
+	int numSats = 0;
+	double horDil = 0;
+	double alt = 0;
+	char altUnit = ' ';
+	double geoSep = 0;
+	char geoUnit = ' ';
+	double datAge = 0;
+	int refStation = 0;
+	int checkSum = 0;
 };
 
 #endif
