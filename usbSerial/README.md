@@ -1,3 +1,3 @@
 # Serial over USB
 
-Code in this directory demonstrates how to read data from USB serial connection
+Code in this directory demonstrates reading serial data from USB connection.
