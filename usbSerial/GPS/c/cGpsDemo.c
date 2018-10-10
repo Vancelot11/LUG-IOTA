@@ -10,6 +10,10 @@ int main()
 	struct GGA ggaDat;
 
 	init(&ggaDat);
-	getDat(&ggaDat);
+	for(;;)
+	{
+		getDat(&ggaDat);
+		printGGA(&ggaDat);
+	}
 	finalize(&ggaDat);
 }

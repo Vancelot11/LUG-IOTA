@@ -13,7 +13,7 @@
 
 #define BAUDRATE B4800
 #define SERIALPORT "/dev/ttyUSB0"
-#define BUFSIZE 255
+#define BUFSIZE 100
 
 struct GGA
 {

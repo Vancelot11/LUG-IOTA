@@ -2,10 +2,10 @@ CC=g++
 CFLAGS=-Wall -g
 COFLAGS=-Wall -c -g
 
-all: plusGPS
+all: gpsPlus
 
-plusGPS: gpsDemo.o gga.o
-	$(CC) $(CFLAGS) gga.o gpsDemo.o -o plusGPS 
+gpsPlus: gpsDemo.o gga.o
+	$(CC) $(CFLAGS) gga.o gpsDemo.o -o gpsPlus
 
 gpsDemo.o: gpsDemo.cpp
 	$(CC) $(COFLAGS) gpsDemo.cpp

@@ -1,3 +1,4 @@
+// Author: Kerry Vance
 #include"header.hpp"
 
 int main()

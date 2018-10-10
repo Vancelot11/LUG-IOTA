@@ -1,3 +1,4 @@
+// Author: Kerry Vance
 #ifndef __HEADER__
 #define __HEADER__
 
