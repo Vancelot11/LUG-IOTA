@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# This script modifies the apache2 envvars configuration file to create
+# apache2 log file directories when the apache2 service starts up.
+# Creating these directories upon start up guarantees their existance
+# when these logs are kept in the temporary file system (tmpfs).
+
+echo "Backing up envvars..."
+
+cd /etc/apache2
+cp envvars envvars_bak
+
+echo "Modifying envvars..."
+
+echo " " > envvars
+echo "###################################################################" >> envvars
+echo "# Added for compatibility with storing log files in temporary" >> envvars
+echo "# file system, i.e., ram, to avoid excessive writing to flash memory" >> envvars
+echo "if [ ! -d /var/log/apache2 ]; then" >> envvars
+echo "  mkdir /var/log/apache2" >> envvars
+echo "fi" >> envvars
+echo "if [ ! -d /var/log/mysql ]; then" >> envvars
+echo "  mkdir /var/log/mysql" >> envvars
+echo "fi" >> envvars
+echo "###################################################################" >> envvars
+echo " " >> envvars
+
+cat envvars_bak >> envvars
+echo "Modification successful.  Please restart apache2 service."
+

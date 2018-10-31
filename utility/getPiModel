@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# This script gets the raspberry model number and
+# version information.
+
+cat /sys/firmware/devicetree/base/model;echo 

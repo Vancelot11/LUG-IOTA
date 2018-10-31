@@ -1,0 +1,22 @@
+#!/bin/bash
+# Mount or unmount a usb thumb drive
+# use -u option to unmount, no option to mount
+
+# Get device file name for usb drive.
+usb_device_name=`ls /dev | grep sda[0-9]`
+
+if [ "$1" == "-u" ]; then
+  sync
+  sudo umount /mnt/usb
+  sudo rmdir /mnt/usb
+elif [ ! -e "/dev/$usb_device_name" ]; then
+  echo USB drive not found
+else
+  if [ ! -e "/mnt/usb" ]; then
+    sudo mkdir /mnt/usb
+  fi
+  #sudo mount -o uid=$USER,gid=$USER /dev/$usb_device_name /mnt/usb
+  #sudo mount -t vfat /dev/$usb_device_name /mnt/usb
+  sudo mount /dev/$usb_device_name /mnt/usb
+fi
+

@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# This script configures the raspberry pi to use RAM for temporary
+# files and system log files.  The following directories will be
+# mounted to the temporary file system (tmpfs) which is stored in
+# RAM:
+#   /tmp
+#   /var/tmp
+#   /var/log
+#   /var/spool/mqueue
+#
+# Notes:
+#   1. Log files stored in tmpfs will be lost when the raspberry pi
+#      gets powered off or rebooted.  Use a USB hard drive if it is
+#      necessary to save log files.
+#   2. If apache2 is running on the raspberry pi, the script
+#       setupApacheEnvvars will also need to be run.
+
+echo "backing up fstab..."
+cd /etc
+cp fstab fstab_bak
+
+echo "modifying fstab to use tmpfs..."
+
+echo "#" >> fstab
+echo "# These changes store all non-essential logs in ram to" >> fstab
+echo "# reduce stress on the SD card due to frequent writes." >> fstab
+echo "tmpfs /tmp tmpfs nodev,nosuid,size=20M 0 0" >> fstab
+echo "tmpfs /var/tmp tmpfs defaults,noatime,nosuid,size=20m 0 0" >> fstab
+echo "tmpfs /var/log tmpfs defaults,noatime,nosuid,mode=0755,size=20m 0 0" >> fstab
+echo "tmpfs /var/spool/mqueue tmpfs defaults,noatime,nosuid,mode=0700,gid=12,size=20m 0 0" >> fstab
+
+echo "Modification successful.  Please reboot."
+
