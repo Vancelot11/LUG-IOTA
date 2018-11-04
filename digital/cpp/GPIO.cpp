@@ -1,15 +1,28 @@
 #include"digitalIO.h"
 
-void GPIO::writeHigh()
+bool GPIO::getValue()
 {
-	gpioValue << 1 << endl;
-	cout << "pin " << pin << " high\n";
+	bool result;
+	string buf;
+
+	gpioValue.seekg(0);
+	gpioValue >> buf;
+	if(buf != "0")
+	{
+		result = false;
+	}
+	else
+	{
+		result = true;
+	}
+	cout << "INPUT: pin " << pin << ' ' << result << endl;
+	return result;
 }
 
-void GPIO::writeLow()
+void GPIO::setValue(bool val)
 {
-	gpioValue << 0 << endl;
-	cout << "pin " << pin << " low\n";
+	gpioValue << val << endl;
+	cout << "OUTPUT: pin " << pin << ' ' <<  val << endl;
 }
 
 GPIO::GPIO(int pinNumber, bool direction)
