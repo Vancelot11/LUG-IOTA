@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+
+APP_PATH="/home/$USER/devops/LUG-IOTA/github/i2c"
+LOG_PATH="/home/$USER/log"
+
+PROCESS_ID="$(ps x| awk '/[m]pl3115a2_agent.py/{print $1}')"
+
+if [ -n "$PROCESS_ID" ]; then
+  if [ "$1" != "-q" ]; then
+    printf "mpl3115a2 agent running [%s]\n" $PROCESS_ID
+  fi
+else
+  printf "starting up mpl3115a2 agent\n"
+  cd $APP_PATH
+  ./mpl3115a2_agent.py >> $LOG_PATH/mpl3115a2_agent.log 2>&1 &
+fi

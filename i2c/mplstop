@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Set path to radmon input data file
+MPL3115A2_OUTPUT_DATA_FILE="/home/$USER/public_html/mpl3115a2/dynamic/mpl3115a2Data.js"
+
+PROCESS_ID="$(ps x| awk '/[m]pl3115a2_agent.py/{print $1}')"
+
+if [ -n "$PROCESS_ID" ]; then
+  printf "killing mpl3115a2 agent [%s]\n" $PROCESS_ID
+  kill $PROCESS_ID
+  if [ -e $MPL3115A2_OUTPUT_DATA_FILE ]; then
+    rm $MPL3115A2_OUTPUT_DATA_FILE
+  fi
+else
+  echo mpl3115a2 agent not running
+fi
+
