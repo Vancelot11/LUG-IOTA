@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MPL3115A2 Sensor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    background-image: url("static/chalk.jpg");
+}
+h2 {
+    font: bold 24px arial, sans-serif;
+}
+h4 {
+    font: bold 16px arial, sans-serif;
+}
+#mainContainer {
+    width: 740px;
+    text-align: center;
+    margin: auto;
+}
+#datetime {
+    padding: 10px;
+    font: bold 22px arial, sans-serif;
+}
+#notes {
+    font: 17px arial, sans-serif;
+    text-align: left;
+    padding: 10px;
+}
+.rowContainer {
+    display: table;
+    //text-align: left;
+    width: 100%;
+}
+.currentDataCell {
+    width: 50%;
+    padding: 10px;
+    font: bold 24px arial, sans-serif;
+    text-align: right;
+    display: table-cell;
+    vertical-align: middle;
+}
+.dataItems {
+    padding: 2px;
+    text-align: left;
+    line-height: 130%;
+    display: inline-block;
+    vertical-align: middle;
+}
+.chartContainer {
+    padding: 2px;
+}
+img.chart {
+    width: 100%;
+}
+</style>
+</head>
+
+<body onload="main()">
+
+<div id="mainContainer">
+
+<h2>MPL3115A2 Sensor Data</h2>
+
+<div id="datetime">
+<text id="date"></text>
+&nbsp;&nbsp;
+<text id="time"></text>
+</div>
+
+<div class="rowContainer">
+
+<div class="currentDataCell">
+<div class="dataItems">
+Altitude:<br>
+Pressure:<br> 
+Temperature:<br>
+</div>
+<div class="dataItems">
+<text id="altitude"></text><br>
+<text id="pressure"></text><br>
+<text id="temperature"></text>
+</div>
+</div>
+
+<div class="currentDataCell">
+<div class="dataItems">
+Status:
+</div>
+<div class="dataItems">
+<text id="status"></text>
+</div>
+</div>
+
+</div>
+
+<br>
+
+<div class="chartContainer">
+<img class="chart" id="altitude_g">
+</div>
+
+<div class="chartContainer">
+<img class="chart" id="pressure_g">
+</div>
+
+<div class="chartContainer">
+<img class="chart" id="temperature_g">
+</div>
+
+<div id="notes">
+<b>NOTES:</b>
+<ul>
+<li>MPL3115A2 project plans and software available at
+<a href="https://github.com/fractalxaos" target="_new">
+<i>Github.com</i>
+</a>.</li>
+<li>Project sponsored by
+ <a href="http://lug.oregonstate.edu" TARGET="_NEW">
+ <i>Oregon State University Linux User Group</i></a>, Corvallis, Oregon.</li>
+</ul>
+</div>
+
+</div>
+<br><br>
+
+<script>
+
+/* Global constants */
+
+var Mpl3115a2DataUrl = "dynamic/mpl3115a2Data.js";
+
+/* Global DOM objects */
+
+// Chart Elements
+var altitude_g = document.getElementById("altitude_g");
+var pressure_g = document.getElementById("pressure_g");
+var temperature_g = document.getElementById("temperature_g");
+
+// Text Elements
+var date_t = document.getElementById("date");    
+var time_t = document.getElementById("time");
+var altitude_t = document.getElementById("altitude");
+var pressure_t = document.getElementById("pressure");    
+var temperature_t = document.getElementById("temperature");    
+var status_t =  document.getElementById("status");    
+
+/* Global objects */
+
+// HTTP requests
+var httpRequest = new XMLHttpRequest();
+
+/* Global variables */
+
+function main() {
+    // Register call back function to process client http requests
+    httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+            var dataArray = JSON.parse(httpRequest.responseText);
+            displayData(dataArray[0]);
+        } else if (httpRequest.readyState == 4 && httpRequest.status == 404) {
+            displayOfflineStatus();
+        }
+    };
+
+    /*
+       Get sensor data and graphs from web service.  
+       Setup up polling intervals to get sensor data
+       from web service.
+    */
+    getMpl3115a2Data();
+    getMpl3115a2Graphs();
+    setInterval(getMpl3115a2Data, 5000);
+    setInterval(getMpl3115a2Graphs, 60000);
+}
+
+function getMpl3115a2Data() {
+    // Request data update from web service.
+    httpRequest.open("POST", Mpl3115a2DataUrl, true);
+    httpRequest.send();
+}
+
+function getMpl3115a2Graphs() {
+    var d = new Date;
+
+    altitude_g.src = "dynamic/1d_altitude.png?ver=" + d.getTime();
+    pressure_g.src = "dynamic/1d_pressure.png?ver=" + d.getTime();
+    temperature_g.src = "dynamic/1d_temperature.png?ver=" + d.getTime();
+}
+
+function displayData(dataItem) {
+    var timeStamp, date, time, hourminute, status;
+    var localDateObj, localTimeZone;
+
+    timeStamp = dataItem.date;
+    date = timeStamp.split(" ")[0];
+    time = timeStamp.split(" ")[1];
+    hourminute = time.split(":")[0] + ":" + time.split(":")[1]
+                 + ":" + time.split(":")[2];
+    localDateObj = new Date();
+    localTimeZone = localDateObj.getTimezoneOffset() / 60;
+
+    date_t.innerHTML = date;    
+    time_t.innerHTML = hourminute + "  <small>(GMT+" + 
+                       localTimeZone + ")</small>";
+
+    altitude_t.innerHTML = dataItem.altitude + " m";
+    pressure_t.innerHTML = dataItem.pressure + " kPa";
+    temperature_t.innerHTML = dataItem.temperature + " <sup>o</sup>C";
+
+    status = dataItem.status;
+    status_t.innerHTML = status;
+    if (status == "online") {
+       status_t.style.color = "green";
+    } else {
+       displayOfflineStatus();
+    }
+}
+
+function displayOfflineStatus() {
+    var d = new Date();
+    localTimeZone = d.getTimezoneOffset() / 60;
+    date_t.innerHTML = d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear();    
+    time_t.innerHTML = d.getHours() + ":" + d.getMinutes() + "  <small>(GMT+" + 
+                       localTimeZone + ")</small>";
+    altitude_t.innerHTML = "";
+    pressure_t.innerHTML = "";
+    temperature_t.innerHTML = "";
+    status_t.innerHTML = "offline";
+    status_t.style.color = "red";
+}
+
+</script>
+
+</body>
+</html>
