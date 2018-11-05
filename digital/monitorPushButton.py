@@ -18,44 +18,29 @@
 # number to something else.
 PUSH_BUTTON_PIN = 24
 
-# Import the GPIO library
+# Import the GPIO interface library
 import RPi.GPIO as GPIO
-# Import the time library
 import time
+
 # Import libraries to monitor for keyboard events
 import threading
 import click
-import Queue
 
-keyPressed = 0
-
-# Setup a thread to monitor for keyboard events.  Whenever a
-# key gets pressed, update the global variable 'key' with the
-# value of the character pressed.
-
-# Define the target function for the thread.
 def monitorKeyboard():
+  # Define an key pressed event handler that returns the key
+  # pressed by the user.
   global keyPressed
-  while(True):
-    # Gracefully exit the thread when requested by the parent.
-    try:
-      if objQueue.get(False) == 'stop':
-        break
-    except Queue.Empty:
-      pass
-    # Wait for a key to be pressed.  This a blocking function.
-    keyPressed = click.getchar()
-    time.sleep(.01) # give the CPU some time to catch up
+  keyPressed = click.getchar()
 #end def
 
-objQueue = Queue.Queue()
-
-objThread = threading.Thread(target=monitorKeyboard)
-objThread.start()
+# Setup a thread to monitor for key pressed events.  Whenever a
+# key gets pressed, update the global variable 'keyPressed' with
+# the value of the character pressed.
+keyPressed = 0
+threading.Thread(target=monitorKeyboard).start()
 
 # Initialize the GPIO interface
 GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
 
 # Setup as input the pin used for the push button
 GPIO.setup(PUSH_BUTTON_PIN, GPIO.IN)
@@ -86,14 +71,12 @@ while True:
   # to do other processing
   time.sleep(.01)
 
-  # If any key has been pressed, end the program
+  # If any key has been pressed, exit the program
   if keyPressed != 0:
     break
 #end while
 
-# User has pressed a key, so gracefully exit the program.
-objQueue.put('stop')
-objThread.join()
+GPIO.cleanup()
 exit()
 
 # end program
