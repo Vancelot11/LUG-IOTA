@@ -163,6 +163,12 @@ function main() {
         }
     };
 
+    // Register call back to deal with web server not responding
+    httpRequest.timeout = 3000;
+    httpRequest.ontimeout = function(e) {
+        displayOfflineStatus();
+    };
+
     /*
        Get sensor data and graphs from web service.  
        Setup up polling intervals to get sensor data

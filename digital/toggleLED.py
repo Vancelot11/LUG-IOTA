@@ -49,6 +49,7 @@ if ledState == '1':
   print("LED state: ON")
 else:
   GPIO.output(led_pin,GPIO.LOW)
+  GPIO.cleanup()
   print("LED state: OFF")
 
 exit(0)
