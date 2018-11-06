@@ -7,6 +7,7 @@ def bitstring(n):
 
 def read(adc_channel=0, spi_channel=0):
     conn = spidev.SpiDev(0, spi_channel)
+    conn.open(0, 0)
     conn.max_speed_hz = 1200000 # 1.2 MHz
     cmd = 128
     if adc_channel:
