@@ -3,7 +3,7 @@ import spidev
 import time
 
 spi = spidev.SpiDev()
-spi.open(1, 1)
+spi.open(0, 0)
 
 while True:
     result = spi.xfer([104, 0])
