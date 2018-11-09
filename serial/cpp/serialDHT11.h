@@ -14,7 +14,7 @@ using std::string;
 using std::to_string;
 */
 
-const int INPUTPIN = 17;
+const int INPUTPIN = 2;
 const string GPIOEXPORTPATH = "/sys/class/gpio/export";
 const string GPIOUNEXPORTPATH = "/sys/class/gpio/unexport";
 const string GPIOPATH = "/sys/class/gpio/gpio";
@@ -33,7 +33,7 @@ class GPIO
 
 	public:
 		void setDirection(bool);
-		string getValue();
+		int getValue();
 		void setValue(bool);
 		void readDHT11();
 

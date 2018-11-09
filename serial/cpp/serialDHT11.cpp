@@ -18,29 +18,37 @@ int main()
 
 	GPIO dht(INPUTPIN, OUTPUT);
 	string buffer;
+	bool sensorRes;
 
-//	for(;;)
-//	{
+	for(;;)
+	{
+		dht.setDirection(OUTPUT);
+		dht.setValue(HIGH);
+		usleep(20000);
+		dht.setValue(LOW);
+		usleep(20000);
 		dht.setValue(HIGH);
 		usleep(20);
-		dht.setValue(LOW);
-		usleep(18);
-		dht.setValue(HIGH);
-		usleep(30);
 		dht.setDirection(INPUT);
-		buffer = dht.getValue();
-		usleep(80);
+		sensorRes = false;
+		while(!sensorRes)
+		{
+			if(dht.getValue())
+			{
+				
+			}
+		}
+		usleep(80000);
 		cout << "Data: " << buffer << endl;
 
 		if(interuptReceived)
 		{
 			cout << "SIGINT received. Unexporting pins.\n";
-			input.~GPIO();
-			output.~GPIO();
+			dht.~GPIO();
 			cout << "Deallocating GPIO objects.\n";
 			break;
 		}
-//	}
+	}
 
 	cout << "Exiting...\n";
 	return 0;
