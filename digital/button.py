@@ -8,6 +8,6 @@ while True:
     input_state = GPIO.input(23)
     GPIO.wait_for_edge(23, GPIO.RISING)
     if input_state == False:
-        print("Daniel is the best!")
+        print("It works!")
         time.sleep(0.2)
     
