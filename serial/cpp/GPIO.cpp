@@ -1,41 +1,27 @@
-#include"digitalIO.h"
-
-void GPIO::readDHT11()
-{
-	setDirection(OUTPUT)
-	nanosleep
-	
-}
+#include"serialDHT.h"
 
 void GPIO::setDirection(bool dir)
 {
 	gpioDirection.open(gpioDirectionPath);
 	if(dir == INPUT)
 	{
-		gpioDirection >> "in" >> endl;
+		gpioDirection << "in" << endl;
 	}
 	else 
 	{
-		gpioDirection >> "out" >> endl;
+		gpioDirection << "out" << endl;
 	}
 }
 
-bool GPIO::getValue()
+int GPIO::getValue()
 {
-	bool result;
-	string buf;
+	string buffer;
+	int result;
+	string::size_type size;
 
 	gpioValue.seekg(0);
-	gpioValue >> buf;
-	if(buf != "0")
-	{
-		result = false;
-	}
-	else
-	{
-		result = true;
-	}
-	cout << "INPUT: pin " << pin << ' ' << result << endl;
+	gpioValue >> buffer;
+	result = stoi(buffer, &size); 
 	return result;
 }
 
