@@ -22,7 +22,7 @@ A different GPIO pin can be used, but it must be intialized in the python code.
 Image1
 
 ![pins](img/digital_button_wiring.JPG)
-src http://razzpisampler.oreilly.com/ch07.html
+http://razzpisampler.oreilly.com/ch07.html
 
 
 GPIO pins for pi
