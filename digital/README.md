@@ -20,7 +20,7 @@ Connect the blue wire to a GPIO pin 19.
 A different GPIO pin can be used, but it must be intialized in the python code.
 
 Image1
-![pins](img/img/digital_button_wiring)
+![pins](img/digital_button_wiring.jpg)
 src: http://razzpisampler.oreilly.com/ch07.html
 
 
