@@ -5,10 +5,13 @@ Code in this directory demonstrates digital input and output over GPIO pins.
 ## Setup
 
 sudo apt-get update
+
 sudo apt-get upgrade
 
 sudo apt-get install vim
+
 sudo apt-get install --upgrade RPi.GPIO
+
 sudo apt-get install git
 
 ## Pins
