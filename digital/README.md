@@ -29,11 +29,13 @@ Connect the led as shown in image 2. The purple wire goes to the GPIO output pin
 Image1
 
 ![pins](img/digital_button_wiring.JPG)
+
 http://razzpisampler.oreilly.com/ch07.html
 
 Image2
 
 ![led](img/led.jpg)
+
 https://www.hackster.io/hardikrathod/push-button-with-raspberry-pi-6b6928
 
 GPIO pins for pi
