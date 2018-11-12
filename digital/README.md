@@ -33,7 +33,7 @@ http://razzpisampler.oreilly.com/ch07.html
 
 Image2
 
-![led](img/leds.jpg)
+![led](img/led.jpg)
 https://www.hackster.io/hardikrathod/push-button-with-raspberry-pi-6b6928
 
 GPIO pins for pi
