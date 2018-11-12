@@ -6,10 +6,12 @@ void GPIO::setDirection(bool dir)
 	if(dir == INPUT)
 	{
 		gpioDirection << "in" << endl;
+		cout << "GPIO: " << pin << " DIRECTION: in\n"; 
 	}
 	else 
 	{
 		gpioDirection << "out" << endl;
+		cout << "GPIO: " << pin << " DIRECTION: out\n"; 
 	}
 }
 

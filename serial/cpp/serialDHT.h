@@ -3,6 +3,7 @@
 #include<string>
 #include<unistd.h>
 #include<signal.h>
+#include<ctime>
 
 using namespace std;
 /*
@@ -14,7 +15,7 @@ using std::string;
 using std::to_string;
 */
 
-const int INPUTPIN = 26;
+const int SERIALPIN = 26;
 const string GPIOEXPORTPATH = "/sys/class/gpio/export";
 const string GPIOUNEXPORTPATH = "/sys/class/gpio/unexport";
 const string GPIOPATH = "/sys/class/gpio/gpio";

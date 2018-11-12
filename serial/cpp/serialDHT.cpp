@@ -20,63 +20,42 @@ int main()
 		exit(1);
 	}
 
-	int lastState = HIGH;
-	int counter = 0;
-	int j = 0;
 	float far;
-	dhtDat[0] = dhtDat[1] = dhtDat[2] = dhtDat[3] = dhtDat[4] = 0;
-	GPIO dhtPin(INPUTPIN, OUTPUT);
+	GPIO dhtPin(SERIALPIN, OUTPUT);
+	clock_t begin, dif;
 
+	usleep(10000);
 	dhtPin.setValue(LOW);
 	usleep(18000);
 	dhtPin.setValue(HIGH);
-	usleep(40);
+	usleep(30);
 	dhtPin.setDirection(INPUT);
+	begin = clock();
+	int lastState;
+	lastState = dhtPin.getValue();
 
+	cout << "lastState " << lastState << endl;
 	for(;;)
 	{
-		for(int i = 0; i < MAXTIMINGS; i++)
+		if(dhtPin.getValue() != lastState)
 		{
-			counter = 0;
-			while(dhtPin.getValue() == lastState)
-			{
-				counter++;
-				usleep(1);
-				if(counter >= 255)
-				{
-					break;
-				}
-			}
+			dif = clock() - begin;
+			begin = clock();
 			lastState = dhtPin.getValue();
-
-			if(counter >= 255)
+			if(lastState == 0)
 			{
-				break;
-			}
 
-			if((i >= 4) && (i % 2 == 0))
-			{
-				dhtDat[j/8] <<=1;
-				if(counter > 16)
-				{
-					dhtDat[j/8] |= 1;
-				}
-				j++;
+				cout <<  lastState << " time: " << (((float)dif)/(CLOCKS_PER_SEC)) * 1000000 << endl;
 			}
 		}
-
-		if((j >= 40) && (dhtDat[4] == ((dhtDat[0] + dhtDat[1] + dhtDat[2] + dhtDat[3]) & 0xFF))) 
+		/*
+		while(dhtPin.getValue() != LOW){}
+		while(dhtPin.getValue() != HIGH)
 		{
-			far = dhtDat[2] * 9. / 5. + 32;
-			cout << "Humidity: " << dhtDat[0] << '.' << dhtDat[1] << " Temperature: " << dhtDat[2] << 'C' << far << "F\n";
+			cout << "Start response received\n";
 		}
-		else
-		{
-			far = dhtDat[2] * 9. / 5. + 32;
-			cout << "Humidity: " << dhtDat[0] << '.' << dhtDat[1] << " Temperature: " << dhtDat[2] << 'C' << far << "F\n";
-			cout << "Bad data, skip\n";
-		}
-		sleep(1);
+		*/
+			
 		if(interuptReceived)
 		{
 			cout << "SIGINT received. Unexporting pins.\n";
@@ -85,7 +64,6 @@ int main()
 		}
 	}
 
-	cout << "Exiting...\n";
 	return 0;
 }
 
