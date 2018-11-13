@@ -1,5 +1,7 @@
 #include"main.h"
 
+
+//Tests main.h
 int main()
 {
 	std::cout << "starting" << std::endl;
@@ -9,13 +11,16 @@ int main()
 	{
 		if(i % 2 == 0 )
 		{
-			dh.digitalValPost(true);
+			dh.buttonValPost(true);
 		}
 		else
 		{
-			dh.digitalValPost(false);
+			dh.buttonValPost(false);
 		}
-		dh.analogValPost(std::to_string(i));
+		dh.tempValPost(std::to_string(i));
+		dh.knobValPost(std::to_string(i));
+		dh.lightValPost(std::to_string(i));
+		dh.rhValPost(std::to_string(i));
 		sleep(1);
 	}
 }
