@@ -1,11 +1,7 @@
 #include"serialDHT.h"
 
-const int MAXTIMINGS = 85;
-
 void sig_handler(int sig);
 bool interuptReceived = false;
-
-int dhtDat[5] = {0,0,0,0,0};
 
 int main()
 {
@@ -20,46 +16,46 @@ int main()
 		exit(1);
 	}
 
-	float far;
 	GPIO dhtPin(SERIALPIN, OUTPUT);
-	clock_t begin, dif;
+	int *result[5] = {0,0,0,0,0};
+	int *lastState = new int;
+	int count;
 
-	usleep(10000);
 	dhtPin.setValue(LOW);
 	usleep(18000);
 	dhtPin.setValue(HIGH);
-	usleep(30);
 	dhtPin.setDirection(INPUT);
-	begin = clock();
-	int lastState;
-	lastState = dhtPin.getValue();
+	*lastState = HIGH;
+	cout << "Start signal sent.\n";
 
-	cout << "lastState " << lastState << endl;
-	for(;;)
+	for(int i = 0; i < 85; i++)
 	{
-		if(dhtPin.getValue() != lastState)
+		count = 0;
+		while(dhtPin.getValue() == *lastState)
 		{
-			dif = clock() - begin;
-			begin = clock();
-			lastState = dhtPin.getValue();
-			if(lastState == 0)
+			count++;
+			usleep(1);
+			if(count == 255)
 			{
-
-				cout <<  lastState << " time: " << (((float)dif)/(CLOCKS_PER_SEC)) * 1000000 << endl;
+				break;
 			}
 		}
-		/*
-		while(dhtPin.getValue() != LOW){}
-		while(dhtPin.getValue() != HIGH)
+		*lastState = dhtPin.getValue();
+		if(count == 255)
 		{
-			cout << "Start response received\n";
+			break;
 		}
-		*/
+
+//		if((i >= 3))
+//		{
+			cout << "i: " << i << " count: " << count << endl;
+//		}
 			
 		if(interuptReceived)
 		{
 			cout << "SIGINT received. Unexporting pins.\n";
 			dhtPin.~GPIO();
+			delete result;
 			break;
 		}
 	}

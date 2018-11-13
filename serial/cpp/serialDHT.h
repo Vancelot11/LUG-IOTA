@@ -30,7 +30,10 @@ class GPIO
 	private:
 		int pin;
 		string gpioFolderPath = GPIOPATH, gpioDirectionPath, gpioValuePath;
-		fstream gpioDirection, gpioValue;
+		fstream gpioDirection;
+		fstream gpioValue;
+		filebuf* valBuf;
+		filebuf* dirBuf;
 
 	public:
 		void setDirection(bool);

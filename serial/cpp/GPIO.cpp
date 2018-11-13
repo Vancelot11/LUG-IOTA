@@ -2,40 +2,45 @@
 
 void GPIO::setDirection(bool dir)
 {
-	gpioDirection.open(gpioDirectionPath);
 	if(dir == INPUT)
 	{
-		gpioDirection << "in" << endl;
-		cout << "GPIO: " << pin << " DIRECTION: in\n"; 
+		dirBuf->sputn("in",5);
 	}
 	else 
 	{
-		gpioDirection << "out" << endl;
-		cout << "GPIO: " << pin << " DIRECTION: out\n"; 
+		dirBuf->sputn("out",5);
 	}
+	dirBuf->pubsync();
 }
 
 int GPIO::getValue()
 {
-	string buffer;
-	int result;
-	string::size_type size;
-
-	gpioValue.seekg(0);
-	gpioValue >> buffer;
-	result = stoi(buffer, &size); 
-	return result;
+	valBuf->pubsync();
+	valBuf->pubseekpos(0);
+	return valBuf->sgetc() - '0';
 }
 
 void GPIO::setValue(bool val)
 {
-	gpioValue << val << endl;
-	cout << "OUTPUT: pin " << pin << ' ' <<  val << endl;
+	valBuf->pubseekpos(0);
+	if(val)
+	{
+		valBuf->sputc('1');
+	}
+	else
+	{
+		valBuf->sputc('0');
+	}	
+	valBuf->pubsync();
+	/*
+	valBuf->pubseekpos(0);
+	cout << "OUTPUT: pin " << pin << ' ' <<  valBuf->sgetc() - '0' << endl;
+	*/
 }
 
 GPIO::GPIO(int pinNumber, bool direction)
 {
-	string buffer;
+	char *buffer = new char[5];
 	ofstream exportFile;
 
 	pin = pinNumber;
@@ -53,7 +58,7 @@ GPIO::GPIO(int pinNumber, bool direction)
 	}
 	exportFile << pin;
 	exportFile.close();
-	sleep(3);
+	sleep(1);
 
 	gpioDirection.open(gpioDirectionPath);
 	if(!gpioDirection.is_open())
@@ -64,19 +69,19 @@ GPIO::GPIO(int pinNumber, bool direction)
 	{
 		cout << "Direction opened successfully.\n";
 	}
+	dirBuf = gpioDirection.rdbuf();
 	switch(direction)
 	{
 		case INPUT:
-			gpioDirection << "in" << endl;
+			dirBuf->sputn("in",5);
 			break;
 		case OUTPUT:
-			gpioDirection << "out" << endl;
+			dirBuf->sputn("out",5);
 			break;
 	}
-	gpioDirection.seekg(0);
-	gpioDirection >> buffer;
-	cout << "GPIO Direction: " << buffer << endl;
-	gpioDirection.close();
+	dirBuf->pubsync();
+	dirBuf->pubseekpos(0);
+	cout << "GPIO Direction: " << dirBuf->sgetn(buffer, 5) << endl;
 
 	gpioValue.open(gpioValuePath);
 	if(!gpioValue.is_open())
@@ -87,9 +92,10 @@ GPIO::GPIO(int pinNumber, bool direction)
 	{
 		cout << "Value opened successfully.\n";
 	}
-	gpioValue.seekp(0);
-	gpioValue >> buffer;
-	cout << "GPIO Value: " << buffer << endl;
+	valBuf = gpioValue.rdbuf();
+	valBuf->pubsync();
+	valBuf->pubseekpos(0);
+	cout << "GPIO Value: " << valBuf->sgetc() - '0' << endl;
 }
 
 GPIO::~GPIO()
