@@ -2,8 +2,8 @@ CFLAGS = -Wall -g -o digitalIO
 
 all: program
 
-program: digitalIO.cpp GPIO.cpp
-	g++ digitalIO.cpp GPIO.cpp $(CFLAGS)
+program: digitalIO.cpp 
+	g++ digitalIO.cpp $(CFLAGS)
 
 clean:
 	rm digitalIO
