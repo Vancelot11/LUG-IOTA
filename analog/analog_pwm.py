@@ -4,7 +4,8 @@ from time import sleep
 import spidev
 
 BUS_CHANNEL = 0
-DEVICE_CHANNEL = 0
+DEVICE_CHANNEL = 0 
+
 
 def bitstring(n):
     s = bin(n)[2:]
@@ -28,16 +29,24 @@ if __name__ == '__main__':
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(led_pin, GPIO.OUT)
+    frequency = 50
+    dc = 50.9
+    p = GPIO.PWM(led_pin, frequency)
+    p.start(dc)
+
+    fraks = []
 
     while 0 != 1:
         try:
-            GPIO.output(led_pin, GPIO.HIGH)
-            period = read() * 5
-            sleep(period * 0.5)
-            GPIO.output(led_pin, GPIO.LOW)
-            sleep(period * 0.5)
+            frequency = (read() / 0.005 * 100) + 1 # divide by max value 0.00489 and multiply by the max output 100 adding 1 to make sure frequency is > 0.0
+            p.ChangeFrequency(frequency)    
+            print frequency
+            fraks.append(frequency)
         except KeyboardInterrupt:
-            print('yup')
+            print('Interrupted!')
             break
 
-    GPIO.cleanup()
+    print(max(fraks))
+    print(min(fraks))
+
+    p.stop()
