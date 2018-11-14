@@ -5,6 +5,8 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<wiringPi.h>
+#include<sys/time.h>
+#include<string.h>
 
 #define SERIALPIN 7
 #define GPIOEXPORTPATH "/sys/class/gpio/export"
