@@ -1,40 +1,4 @@
-#include<iostream>
-#include<stdio.h>
-#include<stdlib.h>
-#include<string>
-#include<curl/curl.h>
-#include<unistd.h>
-
-using std::string;
-
-//wraps API calls to the web server.
-class dataHandler
-{
-	private:
-		CURL *curl;
-		struct curl_slist *headers = NULL;
-		
-                //direct URL to connect to the server.
-                const string serverURL = "flip3.engr.oregonstate.edu:2031";
-		
-                //API routes to append to server URL.
-                const string tempURL = serverURL + "/iota/temp?value=";
-		const string knobURL = serverURL + "/iota/knob?value=";
-		const string rhURL = serverURL + "/iota/rh?value=";
-		const string lightURL = serverURL + "/iota/light?value=";
-		const string buttonURL = serverURL + "/iota/button/";
-		CURLcode res;
-	public:
-		dataHandler();
-		~dataHandler();
-
-		int buttonValPost(bool);
-		int tempValPost(string);
-		int knobValPost(string);
-		int rhValPost(string);
-		int lightValPost(string);
-                
-};
+#include "dataHandler.h"
 
 //POST /iota/button/enable OR POST /iota/button/disable
 int dataHandler::buttonValPost(bool val)
@@ -119,9 +83,16 @@ int dataHandler::lightValPost(string val)
 }
 
 //construct the CURL obbject so we do not need to change headers for every call
-dataHandler::dataHandler()
+dataHandler::dataHandler(string serverURL)
 {
-	curl = curl_easy_init();
+        //API routes to append to server URL.
+        this->tempURL = serverURL + "/iota/temp?value=";
+        this->knobURL = serverURL + "/iota/knob?value=";
+        this->rhURL = serverURL + "/iota/rh?value=";
+        this->lightURL = serverURL + "/iota/light?value=";
+        this->buttonURL = serverURL + "/iota/button/";
+	
+        curl = curl_easy_init();
 	curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
 
 	headers = curl_slist_append(headers, "cache-control: no-cache");

@@ -1,7 +1,10 @@
 CFLAGS = -lcurl -g -Wall -o serverTest
 COFLAGS = -Wall -c -g
 
-all: program
+all: dataHandler.o
 
-program: main.cpp
-	g++ main.cpp $(CFLAGS)
+dataHandler.o:
+	g++ dataHandler.cpp -c $(COFLAGS) -o dataHandler.o
+
+clean:
+	rm -f *.o

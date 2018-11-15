@@ -1,11 +1,11 @@
-#include"main.h"
+#include"../dataHandler.h"
 
 
 //Tests main.h
 int main()
 {
 	std::cout << "starting" << std::endl;
-	dataHandler dh;
+	dataHandler dh("http://flip3.engr.oregonstate.edu:2031");
 	
 	for(int i = 0; i < 10; i++)
 	{
