@@ -1,0 +1,73 @@
+    1  ls
+    2  sudo apt-get update
+    3  sudo apt-get upgrade
+    4  cd /etc
+    5  ls
+    6  sudo vim hostname 
+    7  sudo vi hostname 
+    8  ls
+    9  vi hosts
+   10  sudo vi hosts
+   11  reboot
+   12  sudo reboot
+   13  ls
+   14  lsblk
+   15  sudo shutdown -h now
+   16  clear
+   17  ls
+   18  vi foo.py 
+   19  ls
+   20  rm .*.swp
+   21  ls
+   22  vi foo.py 
+   23  sudo apt-get install vim
+   24  ls
+   25  vi foo.py 
+   26  python foo
+   27  python foo.py
+   28  suod apt-get install --upgrade RPi.GPIO
+   29  sudo apt-get install --upgrade RPi.GPIO
+   30  python foo.py
+   31  vi foo.py 
+   32  python foo.py
+   33  vi foo.py 
+   34  which espeack
+   35  which espeak
+   36  sudo apt-get install espeak
+   37  python
+   38  vim foo.py 
+   39  python *.py
+   40  vim foo.py 
+   41  python *.py
+   42  vim foo.py 
+   43  python *.py
+   44  ps
+   45  kill 3336
+   46  ps
+   47  clear
+   48  ls
+   49  vim foo.py 
+   50  ls
+   51  mv foo.py button.py
+   52  ls
+   53  git --version
+   54  python foo.py
+   55  python *.py
+   56  ls
+   57  sudo apt-get install git
+   58  python *.py
+   59  clear
+   60  python *.py
+   61  ls
+   62  git clone https://github.com/Vancelot11/LUG-IOTA.git
+   63  ls
+   64  cd LUG-IOTA/
+   65  ls
+   66  cd digital/
+   67  ls
+   68  cp ../../*.py .
+   69  ls
+   70  git add *
+   71  git push
+   72  ls
+   73  history > history.txt
