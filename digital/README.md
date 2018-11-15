@@ -8,11 +8,10 @@ sudo apt-get update
 
 sudo apt-get upgrade
 
-sudo apt-get install vim
+sudo apt-get install vim git
 
-sudo apt-get install --upgrade RPi.GPIO
+sudo apt-get install RPi.GPIO
 
-sudo apt-get install git
 
 ## Pins
 
