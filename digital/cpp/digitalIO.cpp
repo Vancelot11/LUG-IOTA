@@ -1,7 +1,4 @@
-#include"digitalIO.h"
-
-const int GPIOOUT = 26;
-const int GPIOIN = 19;
+#include"digitalIO.h" 
 
 void sig_handler(int sig);
 bool interuptReceived = false;
