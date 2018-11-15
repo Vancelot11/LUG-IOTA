@@ -37,7 +37,6 @@ if __name__ == '__main__':
             GPIO.output(led_pin, GPIO.LOW)
             sleep(period * 0.5)
         except KeyboardInterrupt:
-            print('yup')
-            break
+            GPIO.cleanup()
+            print('\nInterrupted!')
 
-    GPIO.cleanup()
